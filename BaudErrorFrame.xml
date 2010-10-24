@@ -332,7 +332,7 @@
         BaudErrorFrame_OnLoad(self);
       </OnLoad>
       <OnEvent>
-        BaudErrorFrame_OnEvent();
+        BaudErrorFrame_OnEvent(self, event, ...);
       </OnEvent>
       <OnShow>
         BaudErrorFrame_OnShow();

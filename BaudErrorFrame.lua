@@ -12,23 +12,23 @@ StaticPopupDialogs["CHANGE_ERROR_SOUND"] = {
   OnAccept = function()
     BaudErrorFrameAcceptSound();
   end,
-  OnShow = function()
+  OnShow = function(self)
     local EditBox = getglobal(self:GetName().."EditBox");
     EditBox:SetText(BaudErrorFrameConfig.Sound or "");
     EditBox:HighlightText();
     EditBox:SetFocus();
   end,
-  OnHide = function()
-    if ChatFrameEditBox:IsVisible()then
-      ChatFrameEditBox:SetFocus();
+  OnHide = function(self)
+    if DEFAULT_CHAT_FRAME.editBox:IsVisible()then
+      DEFAULT_CHAT_FRAME.editBox:SetFocus();
     end
     getglobal(self:GetName().."EditBox"):SetText("");
   end,
-  EditBoxOnEnterPressed = function()
+  EditBoxOnEnterPressed = function(self)
     BaudErrorFrameAcceptSound();
     self:GetParent():Hide();
   end,
-  EditBoxOnEscapePressed = function()
+  EditBoxOnEscapePressed = function(self)
     self:GetParent():Hide();
   end,
   timeout = 0,
@@ -59,8 +59,10 @@ function BaudErrorFrame_OnLoad(self)
 end
 
 
-function BaudErrorFrame_OnEvent()
+function BaudErrorFrame_OnEvent(self, event, ...)
+  local arg1, arg2 = ...
   if(event=="VARIABLES_LOADED")then
+ar1, ar2 ,ev = ..., event
     if(type(BaudErrorFrameConfig)~="table")then
       BaudErrorFrameConfig = {};
     end
