@@ -62,7 +62,6 @@ end
 function BaudErrorFrame_OnEvent(self, event, ...)
   local arg1, arg2 = ...
   if(event=="VARIABLES_LOADED")then
-ar1, ar2 ,ev = ..., event
     if(type(BaudErrorFrameConfig)~="table")then
       BaudErrorFrameConfig = {};
     end
@@ -243,7 +242,12 @@ function BaudErrorFrameAcceptSound(self)
   BaudErrorFrameConfig.Sound = getglobal(self:GetParent():GetName().."EditBox"):GetText();
 end
 
-
+function BaudErrorFrameScrollValue()
+	if ErrorList and type(ErrorList)=="table"then
+		local value=getn(ErrorList)
+		return value
+	end
+end
 function BaudErrorFrameScrollBar_Update()
   if not BaudErrorFrame:IsShown()then
     return;
@@ -252,15 +256,15 @@ function BaudErrorFrameScrollBar_Update()
 
   local Frame = BaudErrorFrameListScrollBox;
   local FrameName = Frame:GetName();
-  local ScrollBar = getglobal(FrameName.."ScrollBar");
-  local Highlight = getglobal(FrameName.."Highlight");
+  local ScrollBar = _G[FrameName.."ScrollBar"];
+  local Highlight = _G[FrameName.."Highlight"];
   local Total = getn(ErrorList);
   FauxScrollFrame_Update(ScrollBar,Total,Frame.Entries,16);
   Highlight:Hide();
   for Line = 1, Frame.Entries do
     Index = Line + FauxScrollFrame_GetOffset(ScrollBar);
-    Button = getglobal(FrameName.."Entry"..Line);
-    ButtonText = getglobal(FrameName.."Entry"..Line.."Text");
+    Button = _G[FrameName.."Entry"..Line];
+    ButtonText = _G[FrameName.."Entry"..Line.."Text"];
     if(Index <= Total)then
       Button:SetID(Index);
       ButtonText:SetText(ErrorList[Index].Error);
@@ -290,7 +294,7 @@ end
 
 function BaudErrorFrameEditBox_OnTextChanged(self)
   if(self:GetText()~=self.TextShown)then
-	self:SetText(this.TextShown);
+	self:SetText(self.TextShown);
     self:ClearFocus();
     return;
   end
