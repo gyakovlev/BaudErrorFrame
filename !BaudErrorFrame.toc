@@ -1,0 +1,8 @@
+## Interface: 30000
+## Title: Baud Error Frame(Fan Update)
+## Notes: Improved error reporting FOR WLK
+## Author: Baudzilla, wolftankk
+## Version: 1.3
+## SavedVariables: BaudErrorFrameConfig
+
+BaudErrorFrame.xml
