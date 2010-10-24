@@ -4,13 +4,13 @@ local SoundTime = 0;
 local QueueError = {};
 
 StaticPopupDialogs["CHANGE_ERROR_SOUND"] = {
-  text = "Enter path (eg. Interface\\AddOns\\AddOnName\\MySound.wav):",
+  text = "Enter path (eg. Interface\\AddOns\\AddOnName\\MySound.mp3):",
   button1 = TEXT(ACCEPT),
   button2 = TEXT(CANCEL),
   hasEditBox = 1,
   maxLetters = 100,
-  OnAccept = function()
-    BaudErrorFrameAcceptSound();
+  OnAccept = function(self)
+    BaudErrorFrameAcceptSound(_G[self:GetName().."EditBox"]);
   end,
   OnShow = function(self)
     local EditBox = getglobal(self:GetName().."EditBox");
@@ -25,7 +25,7 @@ StaticPopupDialogs["CHANGE_ERROR_SOUND"] = {
     getglobal(self:GetName().."EditBox"):SetText("");
   end,
   EditBoxOnEnterPressed = function(self)
-    BaudErrorFrameAcceptSound();
+    BaudErrorFrameAcceptSound(self);
     self:GetParent():Hide();
   end,
   EditBoxOnEscapePressed = function(self)
@@ -239,15 +239,9 @@ end
 
 
 function BaudErrorFrameAcceptSound(self)
-  BaudErrorFrameConfig.Sound = getglobal(self:GetParent():GetName().."EditBox"):GetText();
+  BaudErrorFrameConfig.Sound = _G[self:GetParent():GetName().."EditBox"]:GetText();
 end
 
-function BaudErrorFrameScrollValue()
-	if ErrorList and type(ErrorList)=="table"then
-		local value=getn(ErrorList)
-		return value
-	end
-end
 function BaudErrorFrameScrollBar_Update()
   if not BaudErrorFrame:IsShown()then
     return;
